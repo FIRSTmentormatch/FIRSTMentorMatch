@@ -1,0 +1,19 @@
+{
+  "name": "mentormatch",
+  "version": "1.0.0",
+  "description": "FIRST Robotics Mentor Matching Tool",
+  "main": "index.js",
+  "scripts": {
+    "test": "tst"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FIRSTmentormatch/FIRSTMentorMatch.git"
+  },
+  "author": "Brad Voracek",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/FIRSTmentormatch/FIRSTMentorMatch/issues"
+  },
+  "homepage": "https://github.com/FIRSTmentormatch/FIRSTMentorMatch#readme"
+}
