@@ -4,7 +4,8 @@
   "description": "FIRST Robotics Mentor Matching Tool",
   "main": "index.js",
   "scripts": {
-    "test": "tst"
+    "test": "tst",
+    "start": "node index.js"
   },
   "repository": {
     "type": "git",
@@ -15,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/FIRSTmentormatch/FIRSTMentorMatch/issues"
   },
-  "homepage": "https://github.com/FIRSTmentormatch/FIRSTMentorMatch#readme"
+  "homepage": "https://github.com/FIRSTmentormatch/FIRSTMentorMatch#readme",
+  "dependencies": {
+    "express": "^4.15.3"
+  }
 }
