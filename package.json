@@ -22,6 +22,7 @@
     "cookie-parser": "^1.4.3",
     "express": "^4.15.3",
     "morgan": "^1.8.2",
-    "pug": "^2.0.0-rc.2"
+    "pug": "^2.0.0-rc.2",
+    "pug-bootstrap": "0.0.15"
   }
 }
