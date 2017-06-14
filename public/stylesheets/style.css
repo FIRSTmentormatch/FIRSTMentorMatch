@@ -1,0 +1,97 @@
+body {
+  padding-top: 50px;
+}
+
+.starter-template {
+  padding: 40px 15px;
+  text-align: center;
+  padding-left: 20%;
+  padding-right: 20%;
+}
+
+@media (max-width: 992px) {
+  .starter-template {
+    padding-left: 10%;
+    padding-right: 10%;
+  }
+}
+
+@media (max-width: 768px) {
+  .starter-template {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+}
+
+div.anchor {
+    display: block;
+    position: relative;
+    top: -65px;
+    visibility: hidden;
+}
+
+img {
+  padding-bottom: 10px;
+}
+
+.img-container {
+  	max-width:680px;
+    width: 70%;
+}
+
+.img-container3 {
+    width: 100%;
+}
+
+.img-container2 {
+    width:240px;
+}
+
+.img-container-small {
+  	max-width:480px;
+    width: 50%;
+}
+
+.d3-tip {
+  width: 200px;
+  padding-left: 5px;
+  background: steelblue;
+  color: white;
+}
+.d3-tip2 {
+  width: 50px;
+  padding-left: 5px;
+  background: black;
+  color: white;
+}
+
+div.mapiframe {
+  position: relative;
+  padding-bottom: 65.25%;
+  padding-top: 30px;
+  height: 0;
+  overflow: auto; 
+  -webkit-overflow-scrolling:touch;
+  border: solid black 1px;
+}
+
+div.mapiframe iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+div#mentormap {
+  height: 500px;
+}
+
+.bar rect {
+  fill: steelblue;
+}
+
+.bar text {
+  fill: black;
+  font: 14px sans-serif;
+}

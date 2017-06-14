@@ -1,0 +1,17 @@
+extends ../node_modules/pug-bootstrap/_bootstrap
+append styles
+	link(rel='stylesheet', href='/stylesheets/style.css')
+block body
+	- var navitems;
+	- var home = {'Home': '/', 'About':'/about'};
+	- var menus = {'Home': home};
+	- var submenu = 'Home';
+	- var active = 'Home';
+	block active
+	- navitems = menus[submenu];
+	+navbar-fixed("FIRST Mentor Match","navbar","inverse")
+		each val, key in navitems
+			if key == active 
+				+nav_item(val,"active") #{key}
+			else
+				+nav_item(val) #{key}
