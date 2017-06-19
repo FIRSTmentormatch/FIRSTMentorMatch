@@ -1,19 +1,6 @@
 extends ../node_modules/pug-bootstrap/_bootstrap
 append styles
 	link(rel='stylesheet', href='/stylesheets/style.css')
-append scripts
-	script(src="https://www.gstatic.com/firebasejs/4.1.2/firebase.js")
-	script.
-		// Initialize Firebase
-		var config = {
-			apiKey: "AIzaSyAG6MUBQT3j6WUo_L4Lrctibo279CnNGbM",
-			authDomain: "firstmentormatch-86b8f.firebaseapp.com",
-			databaseURL: "https://firstmentormatch-86b8f.firebaseio.com",
-			projectId: "firstmentormatch-86b8f",
-			storageBucket: "firstmentormatch-86b8f.appspot.com",
-			messagingSenderId: "45560575799"
-		};
-		firebase.initializeApp(config);
 block body
 	- var navitems;
 	- var home = {'Home': '/', 'About':'/about'};
