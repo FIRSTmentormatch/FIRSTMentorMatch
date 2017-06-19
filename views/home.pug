@@ -4,7 +4,11 @@ block active
 	- active = 'Home';
 append scripts
 	script(src="https://www.gstatic.com/firebasejs/4.1.2/firebase.js")
+	script(src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js")
+	script(src="https://rawgit.com/allenhwkim/angularjs-google-maps/master/build/scripts/ng-map.js")
 	script.
+		app = angular.module('myApp', ['ngMap']);
+
 		// Initialize Firebase
 		var config = {
 			apiKey: "AIzaSyAG6MUBQT3j6WUo_L4Lrctibo279CnNGbM",
@@ -39,7 +43,7 @@ append scripts
 		firebase.auth().onAuthStateChanged(firebaseUser => {
 			console.log("authStateChanged");
 			if (firebaseUser) {
-				console.log(firebaseUser);
+				console.log('user logged in');
 				btnLogout.classList.remove('hide');
 			} else {
 				console.log('not logged in');
@@ -51,13 +55,75 @@ append scripts
 			firebase.auth().signOut();
 		});
 
+		app.controller('myCtrl', ['$scope','$http', 'NgMap', function($scope,$http,NgMap) {
+			var database = firebase.database();
+
+			function geocode(address) {
+				var geocoder = new google.maps.Geocoder();
+				var def = $.Deferred();
+				geocoder.geocode({ 'address': address }, function (results, status) { // called asynchronously
+					if (status == 'OK') {
+						def.resolve(results);
+					} else {
+						def.reject(status);
+					}
+				});
+				return def.promise();
+			};
+
+			function writeUserData(userId, location) {
+				return database.ref('users/' + userId).set({
+					location: location
+				});
+			}
+
+			$scope.submit = function() {
+				geocode(String($scope.city)).then(function success(response) {
+					var locationResults = response[0].geometry.location;
+					var latLong = {lat: locationResults.lat(), lng: locationResults.lng()};
+					var userId = firebase.auth().currentUser.uid;
+					return writeUserData(userId,latLong).then(function successCallback(response) {$scope.refreshMap();}, function errorCallback(response) {});
+				}, function error(response) {
+					return response;
+				});
+			};
+
+			$scope.googleMapsUrl="https://maps.googleapis.com/maps/api/js?key=AIzaSyDCil4faNpZbfPn9DI-fYqJ01qYnvVeN4c";
+
+			$scope.refreshMap = function() {
+				var mentors;
+				//var userId = firebase.auth().currentUser.uid;
+				var userId = 1;
+				database.ref('/users/'+userId).once('value').then(function successCallback(response) {
+						mentors = response;
+						NgMap.getMap().then(function(map) {
+							//for (index in mentors.data) {
+								var marker = new google.maps.Marker({
+									position: response.val().location,
+									map: map,
+									title: "User"
+								});
+							//}
+						});
+					},
+					function errorCallback(response) {
+						console.log(response);
+						mentors = null;
+					}
+				);
+			};
+
+			$scope.refreshMap();
+		}]);
+
 append body
+	body(ng-app='myApp')
 	.container
 	.starter-template
 		h1 Welcome.
 		p.lead
 			| This is a placeholder for the FIRST Mentor Match tool
-		div
+		div(ng-controller='myCtrl')
 			input(id="txtEmail" type="email" placeholder="Email")
 			input(id="txtPassword" type="password" placeholder="Password")
 			br
@@ -68,3 +134,14 @@ append body
 				Sign Up
 			button(id="btnLogout" class="btn btn-action hide").
 				Log Out
+			br
+			br
+			p Become a mentor:
+			input(type='text' name='city' ng-model="city" placeholder="City")
+			br
+			button(ng-click='submit()' value='Submit') Submit!
+			br
+			h3 Existing Mentors: 
+			br
+			div(map-lazy-load="https://maps.google.com/maps/api/js" map-lazy-load-params="{{googleMapsUrl}}")
+				ng-map(center="33.4484,-112.074" zoom="7" style="height:500px")
