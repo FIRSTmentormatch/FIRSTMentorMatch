@@ -9,53 +9,49 @@ append scripts
 	script.
 		app = angular.module('myApp', ['ngMap']);
 
-		// Initialize Firebase
-		var config = {
-			apiKey: "AIzaSyAG6MUBQT3j6WUo_L4Lrctibo279CnNGbM",
-			authDomain: "firstmentormatch-86b8f.firebaseapp.com",
-			databaseURL: "https://firstmentormatch-86b8f.firebaseio.com",
-			projectId: "firstmentormatch-86b8f",
-			storageBucket: "firstmentormatch-86b8f.appspot.com",
-			messagingSenderId: "45560575799"
-		};
-		firebase.initializeApp(config);
-		const txtEmail = document.getElementById('txtEmail');
-		const txtPassword = document.getElementById('txtPassword');
-		const btnLogin = document.getElementById('btnLogin');
-		const btnSignUp = document.getElementById('btnSignUp');
-		const btnLogout = document.getElementById('btnLogout');
-
-		btnLogin.addEventListener('click', e => {
-			const email = txtEmail.value;
-			const pass = txtPassword.value;
-			const auth = firebase.auth();
-			const promise = auth.signInWithEmailAndPassword(email,pass);
-			promise.catch(e => console.log(e.message));
-		});
-		btnSignUp.addEventListener('click', e => {
-			const email = txtEmail.value;
-			const pass = txtPassword.value;
-			const auth = firebase.auth();
-			const promise = auth.createUserWithEmailAndPassword(email,pass);
-			promise.catch(e => console.log(e.message));
-		});
-
-		firebase.auth().onAuthStateChanged(firebaseUser => {
-			console.log("authStateChanged");
-			if (firebaseUser) {
-				console.log('user logged in');
-				btnLogout.classList.remove('hide');
-			} else {
-				console.log('not logged in');
-				btnLogout.classList.add('hide');
-			}
-		});
-
-		btnLogout.addEventListener('click', e => {
-			firebase.auth().signOut();
-		});
-
 		app.controller('myCtrl', ['$scope','$http', 'NgMap', function($scope,$http,NgMap) {
+			// Initialize Firebase
+			var config = {
+				apiKey: "AIzaSyAG6MUBQT3j6WUo_L4Lrctibo279CnNGbM",
+				authDomain: "firstmentormatch-86b8f.firebaseapp.com",
+				databaseURL: "https://firstmentormatch-86b8f.firebaseio.com",
+				projectId: "firstmentormatch-86b8f",
+				storageBucket: "firstmentormatch-86b8f.appspot.com",
+				messagingSenderId: "45560575799"
+			};
+			firebase.initializeApp(config);
+
+			$scope.login = function () {
+				var email = $scope.txtEmail;
+				var pass = $scope.txtPassword;
+				var auth = firebase.auth();
+				var promise = auth.signInWithEmailAndPassword(email,pass);
+				promise.catch(e => console.log(e.message));
+			}
+
+			$scope.signUp = function () {
+				var email = $scope.txtEmail;
+				var pass = $scope.txtPassword;
+				var auth = firebase.auth();
+				var promise = auth.createUserWithEmailAndPassword(email,pass);
+				promise.catch(e => console.log(e.message));			
+			}
+
+			firebase.auth().onAuthStateChanged(firebaseUser => {
+				console.log("authStateChanged");
+				if (firebaseUser) {
+					console.log('user logged in');
+					btnLogout.classList.remove('hide');
+				} else {
+					console.log('not logged in');
+					btnLogout.classList.add('hide');
+				}
+			});
+
+			$scope.logout = function() {
+				firebase.auth().signOut();
+			}
+
 			var database = firebase.database();
 
 			function geocode(address) {
@@ -124,22 +120,22 @@ append body
 		p.lead
 			| This is a placeholder for the FIRST Mentor Match tool
 		div(ng-controller='myCtrl')
-			input(id="txtEmail" type="email" placeholder="Email")
-			input(id="txtPassword" type="password" placeholder="Password")
+			input(id="txtEmail" ng-model="txtEmail" type="email" placeholder="Email")
+			input(id="txtPassword" ng-model="txtPassword" type="password" placeholder="Password")
 			br
 			br
-			button(id="btnLogin" class="btn btn-action").
+			button(id="btnLogin" ng-click='login()' class="btn btn-action").
 				Log In
-			button(id="btnSignUp" class="btn btn-secondary").
+			button(id="btnSignUp" ng-click='signUp()' class="btn btn-secondary").
 				Sign Up
-			button(id="btnLogout" class="btn btn-action hide").
+			button(id="btnLogout" ng-click='logout()' class="btn btn-action hide").
 				Log Out
 			br
 			br
 			p Become a mentor:
 			input(type='text' name='city' ng-model="city" placeholder="City")
 			br
-			button(ng-click='submit()' value='Submit') Submit!
+			button(ng-click='submit()' value='Submit' class="btn") Submit!
 			br
 			h3 Existing Mentors: 
 			br
