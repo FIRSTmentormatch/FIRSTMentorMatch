@@ -88,18 +88,19 @@ append scripts
 
 			$scope.refreshMap = function() {
 				var mentors;
-				//var userId = firebase.auth().currentUser.uid;
-				var userId = 1;
-				database.ref('/users/'+userId).once('value').then(function successCallback(response) {
-						mentors = response;
+				database.ref('/users/').once('value').then(function successCallback(response) {
+						console.log("users");
+						console.log(response.val());
+						mentors = response.val();
 						NgMap.getMap().then(function(map) {
-							//for (index in mentors.data) {
+							for (mentor in mentors) {
+								var location = mentors[mentor]['location'];
 								var marker = new google.maps.Marker({
-									position: response.val().location,
+									position: location,
 									map: map,
 									title: "User"
 								});
-							//}
+							}
 						});
 					},
 					function errorCallback(response) {
