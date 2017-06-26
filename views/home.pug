@@ -41,6 +41,7 @@ append scripts
 				console.log("authStateChanged");
 				if (firebaseUser) {
 					console.log('user logged in');
+					$scope.refreshMap();
 					btnLogout.classList.remove('hide');
 				} else {
 					console.log('not logged in');
@@ -89,8 +90,6 @@ append scripts
 			$scope.refreshMap = function() {
 				var mentors;
 				database.ref('/users/').once('value').then(function successCallback(response) {
-						console.log("users");
-						console.log(response.val());
 						mentors = response.val();
 						NgMap.getMap().then(function(map) {
 							for (mentor in mentors) {
@@ -134,7 +133,7 @@ append body
 			br
 			br
 			p Become a mentor:
-			input(type='text' name='city' ng-model="city" placeholder="City")
+			input(type='text' name='city' ng-model="city" placeholder="City, State")
 			br
 			button(ng-click='submit()' value='Submit' class="btn") Submit!
 			br
