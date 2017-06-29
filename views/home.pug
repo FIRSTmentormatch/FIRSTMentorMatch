@@ -41,11 +41,13 @@ append scripts
 				console.log("authStateChanged");
 				if (firebaseUser) {
 					console.log('user logged in');
+					$scope.uid = firebaseUser.uid;
+					$scope.auth = true;
 					$scope.refreshMap();
-					btnLogout.classList.remove('hide');
 				} else {
 					console.log('not logged in');
-					btnLogout.classList.add('hide');
+					$scope.auth = false;
+					$scope.uid = null;
 				}
 			});
 
@@ -74,6 +76,15 @@ append scripts
 				});
 			}
 
+			$scope.readUserData = function (userId) {
+				return database.ref('users/'+userId).once('value').then(function successCallback(response) {
+					mentor = response.val();
+					return mentor;
+				}, function errorCallback(response) {
+					return response;
+				});
+			}
+
 			$scope.submit = function() {
 				geocode(String($scope.city)).then(function success(response) {
 					var locationResults = response[0].geometry.location;
@@ -87,18 +98,33 @@ append scripts
 
 			$scope.googleMapsUrl="https://maps.googleapis.com/maps/api/js?key=AIzaSyDCil4faNpZbfPn9DI-fYqJ01qYnvVeN4c";
 
+			$scope.showDetail = function(uid) {
+				$scope.readUserData(uid).then(function success(response) {
+					$scope.theirLocation = response.location;
+					$scope.$apply();
+				});
+			}
+
 			$scope.refreshMap = function() {
 				var mentors;
 				database.ref('/users/').once('value').then(function successCallback(response) {
 						mentors = response.val();
 						NgMap.getMap().then(function(map) {
 							for (mentor in mentors) {
-								var location = mentors[mentor]['location'];
-								var marker = new google.maps.Marker({
-									position: location,
-									map: map,
-									title: "User"
-								});
+								(function(mentor) {
+									if ($scope.uid == mentor) {
+										$scope.myLocation = mentors[mentor]['location'];
+									}
+									var location = mentors[mentor]['location'];
+									var marker = new google.maps.Marker({
+										position: location,
+										map: map,
+										title: mentor
+									});
+									marker.addListener('click', function () {
+										$scope.showDetail(mentor);
+									});
+								})(mentor);
 							}
 						});
 					},
@@ -108,7 +134,7 @@ append scripts
 					}
 				);
 			};
-
+			$scope.theirLocation = 'none';
 			$scope.refreshMap();
 		}]);
 
@@ -129,7 +155,7 @@ append body
 				Log In
 			button(id="btnSignUp" ng-click='signUp()' class="btn btn-secondary").
 				Sign Up
-			button(id="btnLogout" ng-click='logout()' class="btn btn-action hide").
+			button(id="btnLogout" ng-click='logout()' class="btn btn-action" ng-show='auth').
 				Log Out
 			br
 			br
@@ -138,7 +164,11 @@ append body
 			br
 			button(ng-click='submit()' value='Submit' class="btn") Submit!
 			br
+			h4 My location:
+			p(ng-bind='myLocation')
 			h3 Existing Mentors: 
 			br
 			div(map-lazy-load="https://maps.google.com/maps/api/js" map-lazy-load-params="{{googleMapsUrl}}")
 				ng-map(center="33.4484,-112.074" zoom="7" style="height:500px")
+			h4 Their location:
+			p(ng-bind='theirLocation')
