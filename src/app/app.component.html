@@ -15,7 +15,8 @@
     </nav>
 
 <ngui-map zoom="5" center="Potwin, Kansas">
-    <marker *ngFor="let pos of positions" [position]="pos"
+    <marker *ngFor="let user of users" [position]=user.position
+    (click) = "markerClick($event,user)"
     [icon]="{
       url: 'https://plnkr.co/img/plunker.png',
       anchor: [16,16],

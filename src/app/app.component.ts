@@ -15,35 +15,40 @@ export class AppComponent {
   title = 'app';
   data: FirebaseListObservable<any>;
 
-  public positions= [];
+  public users= [];
 
   constructor(public auth: AuthService, private afd: AngularFireDatabase) {
     this.data = this.afd.list('/users');
 
-    this.positions = this.getMarkers();
+    this.users = this.getMarkers();
   }
 
   getMarkers() {
-    this.positions = [];
+    this.users = [];
     console.log('called function')
     this.data = this.afd.list('users');
 
     this.data.subscribe(
       values => {
         console.log('subscribed')
-        console.log(values)
         var index;
         for(index in values){
           var value = values[index];
-          if (value.lat && value.lng) {
-            this.positions.push([value.lat, value.lng]);
+          var position = [value.lat, value.lng];
+          var user = {email:value.email, position:position};
+          if (value.lat && value.lng && value.email) {
+            this.users.push(user);
           }
-          console.log(value)
+          console.log(user)
         }
-
 
       }
     );
-    return this.positions;
+    return this.users;
+  }
+
+  markerClick(event,user) {
+    console.log(event);
+    console.log(user);
   }
 }
