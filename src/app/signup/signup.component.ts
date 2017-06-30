@@ -13,7 +13,6 @@ import * as firebase from 'firebase/app';
 })
 export class SignUpComponent implements OnInit {
 
-
   email;
   password;
   lat;

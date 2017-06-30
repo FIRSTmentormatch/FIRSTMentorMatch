@@ -24,23 +24,26 @@ export class AppComponent {
   }
 
   getMarkers() {
-    let randomLat: number, randomLng: number;
-
-    let positions = [];
-
+    this.positions = [];
+    console.log('called function')
     this.data = this.afd.list('users');
 
     this.data.subscribe(
-      val => console.log(val.location.lat)
+      values => {
+        console.log('subscribed')
+        console.log(values)
+        var index;
+        for(index in values){
+          var value = values[index];
+          if (value.lat && value.lng) {
+            this.positions.push([value.lat, value.lng]);
+          }
+          console.log(value)
+        }
 
 
+      }
     );
-
-    for (let i = 0 ; i < 9; i++) {
-      randomLat = Math.random() * (120);
-      randomLng = Math.random() * (-120);
-      positions.push([randomLat, randomLng]);
-    }
-    return positions;
+    return this.positions;
   }
 }

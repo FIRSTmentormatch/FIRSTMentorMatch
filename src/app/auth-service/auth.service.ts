@@ -38,17 +38,18 @@ export class AuthService {
 		this.afAuth.auth.createUserWithEmailAndPassword(email, password)
 			.then((user) => {
 				this.db.object('users/' + user.uid).set({
-					email: email
+					email: email,
+					lat: latIn,
+					lng: lngIn
 				});
 				this.id = user.id;
-				this.addcoords(user.uid, latIn, lngIn);
 			});
 
 
 	}
 
 	public addcoords(uid: string, lat: string, lng: string){
-		this.db.object('users/' + uid + "/location/").set(
+		this.db.object('users/' + uid).set(
 			{
 				"lat": lat,
 				"lng": lng
