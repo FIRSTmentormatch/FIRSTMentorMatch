@@ -1,31 +1,68 @@
-<!--The whole content below can be removed with the new code.-->
-<nav class="navbar navbar-toggleable-md navbar-inverse fixed-top" style="background-color: #5b5b5b">
-      <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <a class="navbar-brand" href="#">
-        <img src="../assets/logo.png" width="auto" height="65px" class="d-inline-block align-top" alt="">
-      </a>
+<nav class="navbar  navbar-inverse navbar-toggleable-md navbar-light " style=" background-color:#003974">
+  <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <a class="navbar-brand" href="#">
+    <img src="../assets/logo.png" width="auto" height="40" class="d-inline-block align-top" alt="">
+  </a>
 
-        <form class="form-inline mt-2 mt-md-0">
-          <input class="form-control mr-sm-2" type="text" placeholder="Search">
-          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item">
+        <a class="nav-link" href="#">Home</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Link</a>
+      </li>
+      <li>
+        <form class="form-inline my-2 my-lg-0" style="padding-left: 20px">
+          <input class="form-control mr-sm-2" type="text" placeholder="Enter Zip Code">
+          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search for Mentors</button>
         </form>
+      </li>
+    </ul>
 
-    </nav>
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" href="#">Login</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Register as a Mentor</a>
+      </li>
+    </ul>
 
-<ngui-map zoom="5" center="Potwin, Kansas">
-    <marker *ngFor="let user of users" [position]=user.position
-    (click) = "markerClick($event,user)"
-    [icon]="{
-      url: 'https://plnkr.co/img/plunker.png',
-      anchor: [16,16],
-      size: [32,32],
-      scaledSize: [32,32]
-    }">
-    </marker>
-  </ngui-map>
+  </div>
+</nav>
 
-<button (click)="positions = getMarkers()">Show Random Markers</button> <br/>
+<div class="sidecolor"></div>
 
-<app-signup></app-signup>
+
+<div  class="container-fluid" style="padding-right=0px;padding-left=0px;margin-right: 0px;margin-left: 0px;padding-left: 0px;padding-right: 0px;">
+  <div class="map" [style.width.%] = "map">
+    <ngui-map zoom="5" center="Potwin, Kansas">
+      <marker *ngFor="let user of users" [position]=user.position
+      (click) = "markerClick($event,user)"
+      [icon]="{
+        url: 'https://plnkr.co/img/plunker.png',
+        anchor: [16,16],
+        size: [32,32],
+        scaledSize: [32,32]
+      }">
+      </marker>
+    </ngui-map>
+  </div>
+
+  <!-- Sign Up -->
+  <div *ngIf="accountView" class="sidebar">
+    <app-signup></app-signup>
+  </div>
+
+  <!-- Mentor Profile -->
+  <div *ngIf="mentorView" class="sidebar">
+    <p>{{selecteduser.email}} and my bio is: {{selecteduser.bio}}</p>
+  </div>
+
+
+
+
+</div>

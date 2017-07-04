@@ -15,7 +15,6 @@ import { NguiMapModule} from '@ngui/map';
 import { AppComponent } from './app.component';
 import { SignUpComponent} from './signup/signup.component'
 import { AuthService } from './auth-service/auth.service';
-import { FirebaseService } from './fb-service/firebase.service'
 
 @NgModule({
   declarations: [
@@ -31,7 +30,7 @@ import { FirebaseService } from './fb-service/firebase.service'
     AngularFireAuthModule,
     NguiMapModule.forRoot({apiUrl: 'https://maps.google.com/maps/api/js?key=AIzaSyBHTzUv5LSFMiAnk16KBJxHvjwknwBeHiw'})
   ],
-  providers: [AuthService, FirebaseService],
+  providers: [AuthService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
