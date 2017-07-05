@@ -2,6 +2,8 @@ import { Component, OnInit  } from '@angular/core';
 import { SignUpComponent } from './signup/signup.component'
 
 import { AuthService } from './auth-service/auth.service';
+import { UserService } from './user-service/user.service';
+
 import { FormsModule } from "@angular/forms";
 
 import { Router }   from '@angular/router';
@@ -67,11 +69,9 @@ export class AppComponent implements OnInit  {
         for(index in values){
           //set value to be the indexed firebase object
           var value = values[index];
-
-          var position = [value.lat, value.lng];
-          var user = {email:value.email, bio:value.bio, position:position};
-
-          if (value.lat && value.lng && value.email && value.bio) {
+          var user = new UserService();
+          user.newUser(value);
+          if (user.isValid()) {
             this.users.push(user);
           }
         }
@@ -87,7 +87,8 @@ export class AppComponent implements OnInit  {
   }
 
   markerClick(event,user) {
-    console.log(user)
+    console.log("User:");
+    console.log(user);
     this.map = "80";
     this.mentorView = true;
     this.accountView = false;
