@@ -2,9 +2,11 @@ import { Component, OnInit  } from '@angular/core';
 import { SignUpComponent } from './signup/signup.component'
 
 import { AuthService } from './auth-service/auth.service';
+import { FormsModule } from "@angular/forms";
 
 import { Router }   from '@angular/router';
 import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
+
 import * as firebase from 'firebase/app';
 
 @Component({
@@ -29,16 +31,26 @@ export class AppComponent implements OnInit  {
   public users= [];
 
   map: string;
-  accountView;
-  mentorView;
+  accountView: boolean;
+  mentorView: boolean;
+
+  mapcenter: string;
+  searchbox: string;
+  zoom: number;
+
 
   constructor(public auth: AuthService, private afd: AngularFireDatabase) {
     this.data = this.afd.list('/users');
     this.users = this.getMarkers();
 
+    this.mapcenter = "USA";
+    this.searchbox = "";
+    this.zoom = 5;
+
     this.map = "100";
     this.accountView = false;
     this.mentorView = false;
+
   }
 
   getMarkers() {
@@ -69,11 +81,31 @@ export class AppComponent implements OnInit  {
     return this.users;
   }
 
+  updateCenter(){
+    this.mapcenter = this.searchbox;
+    this.zoom = 11;
+  }
+
   markerClick(event,user) {
     console.log(user)
     this.map = "80";
     this.mentorView = true;
+    this.accountView = false;
     this.selecteduser = user;
+  }
+
+  showLogin(){
+    this.map = "80";
+    this.mentorView = false;
+    this.accountView = true;
+  }
+
+  closeTab(){
+    this.map = "100";
+    this.mentorView = false;
+    this.accountView = false;
+    this.mapcenter = "USA";
+    this.zoom = 5;
   }
 
   ngOnInit() {

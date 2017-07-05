@@ -15,19 +15,22 @@
         <a class="nav-link" href="#">Link</a>
       </li>
       <li>
-        <form class="form-inline my-2 my-lg-0" style="padding-left: 20px">
-          <input class="form-control mr-sm-2" type="text" placeholder="Enter Zip Code">
-          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search for Mentors</button>
+        <form class="form-group form-inline my-2 my-lg-0" style="padding-left: 20px">
+           <input name="searchbox" class="form-control mr-sm-2" type="text" placeholder="Enter your City" [(ngModel)]="searchbox">
+          <button class="btn btn-outline-success my-2 my-sm-0" (click)="updateCenter()">Search for Mentors</button>
         </form>
       </li>
     </ul>
 
-    <ul class="navbar-nav">
+    <ul class="navbar-nav" *ngIf="!auth.isLoggedIn">
       <li class="nav-item">
-        <a class="nav-link" href="#">Login</a>
+        <a class="nav-link" href="#"  (click) = "showLogin()">Login or Register as a Mentor</a>
       </li>
+    </ul>
+
+    <ul class="navbar-nav" *ngIf="auth.isLoggedIn">
       <li class="nav-item">
-        <a class="nav-link" href="#">Register as a Mentor</a>
+        <a class="nav-link" href="#"  (click) = "showLogin()">My Account</a>
       </li>
     </ul>
 
@@ -39,7 +42,7 @@
 
 <div  class="container-fluid" style="padding-right=0px;padding-left=0px;margin-right: 0px;margin-left: 0px;padding-left: 0px;padding-right: 0px;">
   <div class="map" [style.width.%] = "map">
-    <ngui-map zoom="5" center="Potwin, Kansas">
+    <ngui-map [zoom]="zoom" [center]="mapcenter">
       <marker *ngFor="let user of users" [position]=user.position
       (click) = "markerClick($event,user)"
       [icon]="{
@@ -54,11 +57,19 @@
 
   <!-- Sign Up -->
   <div *ngIf="accountView" class="sidebar">
+    <button type="button" class="close" aria-label="Close" style="padding: 10px;"  (click) = "closeTab()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <br/>
     <app-signup></app-signup>
   </div>
 
   <!-- Mentor Profile -->
   <div *ngIf="mentorView" class="sidebar">
+    <button type="button" class="close" aria-label="Close" style="padding: 10px;" (click) = "closeTab()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <br/>
     <p>{{selecteduser.email}} and my bio is: {{selecteduser.bio}}</p>
   </div>
 

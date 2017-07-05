@@ -1,5 +1,7 @@
 <div class="container">
 
+<br/>
+
 <div *ngIf="!auth.isLoggedIn">
   <div *ngIf="toggle">
     <h1>Sign Up</h1>
@@ -10,23 +12,13 @@
     </div>
 
     <div class="form-group">
-	     <label for="lat">Latitude</label>
-	      <input [(ngModel)]="lat"  class="form-control" id="lat" placeholder="Enter Latitude">
-    </div>
-
-    <div class="form-group">
-	     <label for="lng">Longitude</label>
-	      <input [(ngModel)]="lng"  class="form-control" id="lng" placeholder="Enter Longitude">
-    </div>
-
-    <div class="form-group">
 	     <label for="password">Password</label>
 	      <input [(ngModel)]="password" type="password" class="form-control" id="password" placeholder="Password">
     </div>
 
 
 
-	  <button (click)="signUp(email, password, lat, lng)" type="button" class="btn btn-outline-primary">
+	  <button (click)="signUp(email, password)" type="button" class="btn btn-outline-primary">
 		    Sign Up
 	  </button>
 
@@ -58,12 +50,28 @@
 	  </button>
 
     </div>
-  </div>
+</div>
+
   <div *ngIf="auth.isLoggedIn">
-    Logged In
-    <button (click)="logout()" type="button" class="btn btn-outline-primary">
+    <img [src]="imgURL" alt="Profile Photo" class="rounded-circle profilephoto">
+
+
+    <div *ngIf="imgBool" class="form-group float-right">
+      <input id="file" name="file" type="file" (change)="upload($event.target.files[0])">
+
+      <button (click)="toggleImgEdit()" type="button" class="btn btn-primary btn-sm ">Submit new photo</button>
+    </div>
+
+    <br/>
+    <div *ngIf="!imgBool">
+      <button (click)="toggleImgEdit()" type="button" class="btn btn-primary btn-sm float-right">Edit Photo</button>
+    </div>
+    <br/>
+
+      <button (click)="logout()" type="button" class="btn btn-outline-primary ">
 		    Log Out
-	  </button>
+	    </button>
+
   </div>
 
 </div>

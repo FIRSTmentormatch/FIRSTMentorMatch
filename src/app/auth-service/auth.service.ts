@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { AngularFireDatabase } from 'angularfire2/database';
+import { FirebaseObjectObservable, FirebaseListObservable } from 'angularfire2/database';
 import * as firebase from 'firebase/app';
 
 export interface coords {
@@ -21,8 +22,10 @@ export class AuthService {
 		this.afAuth.authState.subscribe((auth) => {
 			if(auth) {
 				this.isLoggedIn = true;
+				this.id = auth.uid;
 			} else {
 				this.isLoggedIn = false;
+				this.id = "";
 			}
 			console.log(this.isLoggedIn);
 		});
@@ -33,19 +36,17 @@ export class AuthService {
 	}
 
 
-	public signUp(email: string, password: string, latIn: string, lngIn: string) {
+	public signUp(email: string, password: string) {
 
-		this.afAuth.auth.createUserWithEmailAndPassword(email, password)
-			.then((user) => {
-				this.db.object('users/' + user.uid).set({
-					email: email,
-					lat: latIn,
-					lng: lngIn
-				});
-				this.id = user.id;
-			});
-
-
+		this.afAuth.auth.createUserWithEmailAndPassword(email, password);
+			//.then((user) => {
+				//this.db.object('users/' + user.uid).set({
+					//email: email,
+					//lat: latIn,
+					//lng: lngIn
+				//});
+				//this.id = user.id;
+			//})
 	}
 
 	public addcoords(uid: string, lat: string, lng: string){
@@ -56,8 +57,10 @@ export class AuthService {
 		});
 	}
 
-
 	public logout() {
 		this.afAuth.auth.signOut();
 	}
+
+
+
 }
