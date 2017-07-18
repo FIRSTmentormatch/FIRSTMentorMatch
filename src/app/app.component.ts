@@ -21,11 +21,7 @@ export class AppComponent implements OnInit  {
   title = 'app';
   data: FirebaseListObservable<any>;
 
-  public selecteduser = {
-    email: "",
-    bio: "",
-    position: ["",""]
-  };
+  public selecteduser = new UserService();
 
   public showmentor: boolean;
 
@@ -39,6 +35,8 @@ export class AppComponent implements OnInit  {
   mapcenter: string;
   searchbox: string;
   zoom: number;
+
+  profileStyle: string;
 
 
   constructor(public auth: AuthService, private afd: AngularFireDatabase) {
@@ -93,7 +91,16 @@ export class AppComponent implements OnInit  {
     this.mentorView = true;
     this.accountView = false;
     this.selecteduser = user;
+
+    console.log(this.selecteduser)
+
+    if(this.selecteduser.photoURL){
+      this.profileStyle = "url(" + user.photoURL + ") 50% 50% no-repeat";
+    }else{
+      this.profileStyle = "url(../assets/profile.png) 50% 50% no-repeat";
+    }
   }
+
 
   showLogin(){
     this.map = "80";

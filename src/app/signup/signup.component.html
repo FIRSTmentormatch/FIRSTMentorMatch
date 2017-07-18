@@ -2,6 +2,7 @@
 
 <br/>
 
+<!-- Not Logged in -->
 <div *ngIf="!auth.isLoggedIn">
   <div *ngIf="toggle">
     <h1>Sign Up</h1>
@@ -52,25 +53,120 @@
     </div>
 </div>
 
+<!-- Logged in -->
   <div *ngIf="auth.isLoggedIn">
-    <img [src]="imgURL" alt="Profile Photo" class="rounded-circle profilephoto">
 
-
-    <div *ngIf="imgBool" class="form-group float-right">
+    <!-- Profile Photo Edit -->
+    <div *ngIf="imgBool" class="form-group">
+      <h1>Select new photo</h1>
+      <hr/>
       <input id="file" name="file" type="file" (change)="upload($event.target.files[0])">
-
-      <button (click)="toggleImgEdit()" type="button" class="btn btn-primary btn-sm ">Submit new photo</button>
+      <br/>
+      <button (click)="toggleImgEdit()" type="button" class="btn btn-secondary btn-sm ">Cancel</button>
     </div>
 
-    <br/>
-    <div *ngIf="!imgBool">
-      <button (click)="toggleImgEdit()" type="button" class="btn btn-primary btn-sm float-right">Edit Photo</button>
+    <!-- Profile Info Edit -->
+    <div *ngIf="profileBool" class="form-group">
+      <div class="containter">
+        <button (click)="toggleProfileEdit()" type="button" class="btn btn-secondary btn-sm float-right">Cancel</button>
+        <h1>Edit Profile</h1>
+
+        <hr/>
+
+
+          <div class="form-group">
+            <label for="name">Name</label>
+            <textarea [(ngModel)]="nameEdit" class="form-control" id="name" rows="1">{{editedUser.name}}</textarea>
+          </div>
+
+          <div class="form-group">
+            <label for="bio">Bio</label>
+            <textarea [(ngModel)]="bioEdit" class="form-control" id="bio" rows="5">{{editedUser.bio}}</textarea>
+          </div>
+
+          <label>Areas of Mentorship</label>
+
+          <form class="form-inline">
+
+          <div class="form-check space">
+            <label class="form-check-label">
+              <input type="checkbox" class="form-check-input" [checked]="flljrBool" (change)="flljrBool = !flljrBool">
+              <span class="badge badge-default" style="background-color: #00a650">FLL Jr.</span>
+            </label>
+          </div>
+
+          <div class="form-check space">
+            <label class="form-check-label">
+              <input type="checkbox" class="form-check-input" [checked]="fllBool" (change)="fllBool = !fllBool">
+              <span class="badge badge-default" style="background-color: #ec1c24">FLL</span>
+            </label>
+          </div>
+
+          <div class="form-check space">
+            <label class="form-check-label">
+              <input type="checkbox" class="form-check-input" [checked]="ftcBool" (change)="ftcBool = !ftcBool">
+              <span class="badge badge-default" style="background-color: #f47e25" >FTC</span>
+            </label>
+          </div>
+
+          <div class="form-check space">
+            <label class="form-check-label">
+              <input type="checkbox" class="form-check-input" [checked]="frcBool" (change)="frcBool = !frcBool">
+              <span class="badge badge-default" style="background-color: #019cd7" >FRC</span>
+            </label>
+          </div>
+
+          </form>
+
+          <br/>
+
+          <div class="form-group">
+            <label for="loc">Location</label>
+            <input type="loc" class="form-control" id="loc" placeholder="Enter your address or school address" [(ngModel)]="loc">
+            <small id="emailHelp" class="form-text text-muted">
+              Your address will be protected in the database, and will only appear relatively on the map
+            </small>
+          </div>
+
+
+
+        <button type="button" (click)="submit()" class="btn btn-success" style="width: 60%">Submit</button>
+      </div>
     </div>
-    <br/>
+
+
+
+    <div *ngIf="accountBool" class="containter">
+      <div class="profilephoto" [ngStyle] = "{ 'background' : profileStyle}"></div>
+      <button (click)="toggleImgEdit()" type="button" class="btn btn-secondary btn-sm float-right editphoto">Edit Photo</button>
+      <br/>
+      <br/>
+      <div class="card">
+        <div class="card-block">
+          <h4 class="card-title">{{currentUser.name}}</h4>
+
+          <h6 class="card-subtitle mb-2 text-muted">Mentorship Areas:
+            <span *ngIf="flljrBool" class="badge badge-default" style="background-color: #00a650">FLL Jr.</span>
+            <span *ngIf="fllBool" class="badge badge-default" style="background-color: #ec1c24">FLL</span>
+            <span *ngIf="ftcBool" class="badge badge-default" style="background-color: #f47e25">FTC</span>
+            <span *ngIf="frcBool" class="badge badge-default" style="background-color: #019cd7">FRC</span>
+          </h6>
+
+          <hr/>
+          <p class="card-text">{{currentUser.bio}}</p>
+        </div>
+      </div>
+      <br/>
+      <button (click)="toggleProfileEdit()" type="button" class="btn btn-secondary btn-sm float-right editphoto">Edit Profile</button>
+      <br/>
 
       <button (click)="logout()" type="button" class="btn btn-outline-primary ">
-		    Log Out
-	    </button>
+         Log Out
+      </button>
+    </div>
+    <br/>
+
+
 
   </div>
 
