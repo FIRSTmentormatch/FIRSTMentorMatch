@@ -9,10 +9,7 @@
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item">
-        <a class="nav-link" href="#">Home</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">Link</a>
+        <a class="nav-link" href="#">About</a>
       </li>
       <li>
         <form class="form-group form-inline my-2 my-lg-0" style="padding-left: 20px">
@@ -44,18 +41,14 @@
   <div class="map" [style.width.%] = "map">
     <ngui-map [zoom]="zoom" [center]="mapcenter">
       <marker *ngFor="let user of users" [position]=user.getLocation()
+      [icon] = "user.getImage()"
       (click) = "markerClick($event,user)"
-      [icon]="{
-        url: 'https://plnkr.co/img/plunker.png',
-        anchor: [16,16],
-        size: [32,32],
-        scaledSize: [32,32]
-      }">
+       >
       </marker>
     </ngui-map>
   </div>
 
-  <!-- Sign Up -->
+  <!-- Sign Up [icon]= user.getImage() -->
   <div *ngIf="accountView" class="sidebar">
     <button type="button" class="close" aria-label="Close" style="padding: 10px;"  (click) = "closeTab()">
       <span aria-hidden="true">&times;</span>
@@ -70,7 +63,32 @@
       <span aria-hidden="true">&times;</span>
     </button>
     <br/>
-    <p>{{selecteduser.email}} and my bio is: {{selecteduser.bio}}</p>
+    <div class="profilephoto" [ngStyle] = "{ 'background' : profileStyle}">
+    </div>
+
+    <div class="containter" style="padding: 10px">
+
+      <button type="btn btn-primary" class="btn btn-success contact" style="">Get in Contact</button>
+
+      <div class="card">
+        <div class="card-block">
+          <h4 class="card-title">{{selecteduser.name}}</h4>
+
+          <h6 class="card-subtitle mb-2 text-muted">Mentorship Areas:
+            <span *ngIf="selecteduser.areas.flljr" class="badge badge-default" style="background-color: #00a650">FLL Jr.</span>
+            <span *ngIf="selecteduser.areas.fll" class="badge badge-default" style="background-color: #ec1c24">FLL</span>
+            <span *ngIf="selecteduser.areas.ftc" class="badge badge-default" style="background-color: #f47e25">FTC</span>
+            <span *ngIf="selecteduser.areas.frc" class="badge badge-default" style="background-color: #019cd7">FRC</span>
+          </h6>
+
+          <hr/>
+
+          <p class="card-text">{{selecteduser.bio}}</p>
+        </div>
+      </div>
+
+    </div>
+
   </div>
 
 

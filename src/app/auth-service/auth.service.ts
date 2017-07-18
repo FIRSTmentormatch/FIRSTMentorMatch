@@ -33,7 +33,23 @@ export class AuthService {
 
 
 	public signUp(email: string, password: string) {
-		this.afAuth.auth.createUserWithEmailAndPassword(email, password);
+		this.afAuth.auth.createUserWithEmailAndPassword(email, password)
+			.then((user) => {
+				this.db.list('users').update(user.uid + '', {
+					name: "Unknown",
+					email: email,
+					photoURL: '',
+					bio: 'Nothing has been written',
+					lat: '',
+					lng: '',
+					areas: {
+						flljr: false,
+			      fll: false,
+			      ftc: false,
+			      frc: false
+					}
+				});
+			});
 	}
 
 	public logout() {
