@@ -17,13 +17,10 @@ import { SignUpComponent} from './signup/signup.component'
 import { AuthService } from './auth-service/auth.service';
 import { UserService } from './user-service/user.service'
 
-import {ImageCropperComponent, CropperSettings, Bounds} from 'ng2-img-cropper';
-
 @NgModule({
   declarations: [
     AppComponent,
     SignUpComponent,
-    ImageCropperComponent
   ],
   imports: [
     NgbModule.forRoot(),
