@@ -1,0 +1,17 @@
+.profilephoto{
+  width: 80%;
+  padding-bottom: 75%;
+  background-size: cover !important;
+  border-radius: 50%;
+
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  display: block;
+  margin: auto;
+  margin-bottom: 15px;
+}
+.editphoto{
+  margin-bottom: 10px;
+}
+.space{
+  padding-right: 10px;
+}

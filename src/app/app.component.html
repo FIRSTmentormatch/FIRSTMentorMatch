@@ -1,0 +1,97 @@
+<nav class="navbar  navbar-inverse navbar-toggleable-md navbar-light " style=" background-color:#003974">
+  <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <a class="navbar-brand" href="#">
+    <img src="../assets/logo.png" width="auto" height="40" class="d-inline-block align-top" alt="">
+  </a>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item">
+        <a class="nav-link" href="#">About</a>
+      </li>
+      <li>
+        <form class="form-group form-inline my-2 my-lg-0" style="padding-left: 20px">
+           <input name="searchbox" class="form-control mr-sm-2" type="text" placeholder="Enter your City" [(ngModel)]="searchbox">
+          <button class="btn btn-outline-success my-2 my-sm-0" (click)="updateCenter()">Search for Mentors</button>
+        </form>
+      </li>
+    </ul>
+
+    <ul class="navbar-nav" *ngIf="!auth.isLoggedIn">
+      <li class="nav-item">
+        <a class="nav-link" href="#"  (click) = "showLogin()">Login or Register as a Mentor</a>
+      </li>
+    </ul>
+
+    <ul class="navbar-nav" *ngIf="auth.isLoggedIn">
+      <li class="nav-item">
+        <a class="nav-link" href="#"  (click) = "showLogin()">My Account</a>
+      </li>
+    </ul>
+
+  </div>
+</nav>
+
+<div class="sidecolor"></div>
+
+
+<div  class="container-fluid" style="padding-right=0px;padding-left=0px;margin-right: 0px;margin-left: 0px;padding-left: 0px;padding-right: 0px;">
+  <div class="map" [style.width.%] = "map">
+    <ngui-map [zoom]="zoom" [center]="mapcenter">
+      <marker *ngFor="let user of users" [position]=user.getLocation()
+      [icon] = "user.getImage()"
+      (click) = "markerClick($event,user)"
+       >
+      </marker>
+    </ngui-map>
+  </div>
+
+  <!-- Sign Up [icon]= user.getImage() -->
+  <div *ngIf="accountView" class="sidebar">
+    <button type="button" class="close" aria-label="Close" style="padding: 10px;"  (click) = "closeTab()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <br/>
+    <app-signup></app-signup>
+  </div>
+
+  <!-- Mentor Profile -->
+  <div *ngIf="mentorView" class="sidebar">
+    <button type="button" class="close" aria-label="Close" style="padding: 10px;" (click) = "closeTab()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <br/>
+    <div class="profilephoto" [ngStyle] = "{ 'background' : profileStyle}">
+    </div>
+
+    <div class="containter" style="padding: 10px">
+
+      <button type="btn btn-primary" class="btn btn-success contact" style="">Get in Contact</button>
+
+      <div class="card">
+        <div class="card-block">
+          <h4 class="card-title">{{selecteduser.name}}</h4>
+
+          <h6 class="card-subtitle mb-2 text-muted">Mentorship Areas:
+            <span *ngIf="selecteduser.areas.flljr" class="badge badge-default" style="background-color: #00a650">FLL Jr.</span>
+            <span *ngIf="selecteduser.areas.fll" class="badge badge-default" style="background-color: #ec1c24">FLL</span>
+            <span *ngIf="selecteduser.areas.ftc" class="badge badge-default" style="background-color: #f47e25">FTC</span>
+            <span *ngIf="selecteduser.areas.frc" class="badge badge-default" style="background-color: #019cd7">FRC</span>
+          </h6>
+
+          <hr/>
+
+          <p class="card-text">{{selecteduser.bio}}</p>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+
+
+
+</div>

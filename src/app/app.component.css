@@ -1,0 +1,50 @@
+ngui-map {
+  z-index: -10;
+  height: 100%;
+}
+.map{
+  height: 93vh;
+  overflow: hidden;
+  display: inline-block;
+  padding-left: 15px;
+}
+
+
+.sidebar{
+  height: 93vh;
+  overflow-y: auto;
+  background-color: #e8e8e8;
+  width: 20%;
+  padding: 0px;
+  display: inline;
+  float: right !important;
+}
+.sidecolor{
+	height: 100%;
+	width: 15px;
+	background-image:url(../assets/sidestripe.png);
+	position: fixed;
+	left: 0;
+	top: 0;
+	background-size:cover;
+  z-index: -12;
+}
+.profilephoto{ /* 50% 50% centers image in div */
+  width: 80%;
+  padding-bottom: 75%;
+  background-size: cover !important;
+  border-radius: 50%;
+
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  display: block;
+  margin: auto;
+  margin-bottom: 15px;
+
+}
+.contact{
+  width: 60%;
+  margin-bottom: 15px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
