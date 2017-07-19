@@ -18,7 +18,7 @@
   "license": "GPL-3.0",
   "scripts": {
     "ng": "ng",
-    "start": "http-server",
+    "start": "ng serve",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
